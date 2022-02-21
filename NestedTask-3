@@ -1,0 +1,25 @@
+def kpmggetKey(obj: dict):
+    kpmgkeytask = list(obj)
+    if len(kpmgkeytask) != 1:
+        raise Exception('test the task-1')
+    else:
+        return kpmgkeytask[0]
+
+
+def getNestedkpmgtaskValue(obj: dict, key: str, isFound = False):
+    # print(obj, key, isFound)
+    if type(obj) is not dict and not isFound:
+        return None
+    if (isFound or (key in obj.keys())) :
+        if type(obj[key]) is dict:
+            return getNestedkpmgtaskValue(obj[key], kpmggetKey(obj[key]), True)
+        else:
+            return obj[kpmggetKey(obj)]
+    else:
+        nestedKey = kpmggetKey(obj)
+        return getNestedkpmgtaskValue(obj[nestedKey], key, False)
+
+if __name__ == '__main__':
+    obj = {'a': {'b': {'c': 'd'}}}
+    value = getNestedkpmgtaskValue(obj, 'c')
+    print(value)
